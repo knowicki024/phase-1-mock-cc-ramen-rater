@@ -1,21 +1,13 @@
-let currentRamen
-let ramenData 
+const ramenMenu = document.querySelector("#ramen-menu")
 
-const ramenList = document.querySelector("#ramen-menu")
+let currentRamen 
 
-const ramenDetailImage = document.querySelector(".detail-image")
 const ramenDetailName = document.querySelector(".name")
 const ramenDetailRestaurant = document.querySelector(".restaurant")
+const ramenDetailImage = document.querySelector(".detail-image")
 const ramenDetailRating = document.querySelector("#rating-display")
 const ramenDetailComment = document.querySelector("#comment-display")
 
-const ramenForm = document.querySelector("#new-ramen")
-
-let newRamenName = document.querySelector("#new-name")
-let newRamenRestaurant = document.querySelector("#new-restaurant")
-let newRamenImage = document.querySelector("#new-image")
-let newRamenRating = document.querySelector("#new-rating")
-let newRamenComment = document.querySelector("#new-comment")
 
 
 fetch("http://localhost:3000/ramens")
@@ -24,42 +16,49 @@ fetch("http://localhost:3000/ramens")
     ramenData.map(eachRamen => {
         addRamenToPage(eachRamen)
     })
-        ramenDetails(ramenData[0])
-
-        newRamenForm()
-    
+    displayRamenDetails(ramenData[0])
+    addRamenForm()
 })
 
- function addRamenToPage(ramen) {
+function addRamenToPage(ramen) {
     const ramenImage = document.createElement("img")
     ramenImage.src = ramen.image 
-    ramenList.append(ramenImage)
+    ramenMenu.appendChild(ramenImage)
 
     ramenImage.addEventListener("click", () => {
-        ramenDetails(ramen)
+        displayRamenDetails(ramen)
     })
- }
-
-function ramenDetails(ramen) {
-    currentRamen = ramen
-
-    ramenDetailImage.src = currentRamen.image 
-    ramenDetailName.textContent = currentRamen.name
-    ramenDetailRestaurant.textContent = currentRamen.restaurant 
-    ramenDetailRating.textContent = currentRamen.rating 
-    ramenDetailComment.textContent = currentRamen.comment 
 }
 
-function newRamenForm(){
-    ramenForm.addEventListener("submit", (event) => {
+function displayRamenDetails(ramen) {
+    currentRamen = ramen
+
+
+   ramenDetailName.textContent = currentRamen.name 
+   ramenDetailRestaurant.textContent = currentRamen.restaurant 
+   ramenDetailImage.src = currentRamen.image 
+   ramenDetailRating.textContent = currentRamen.rating 
+   ramenDetailComment.textContent = currentRamen.comment
+
+}
+
+function addRamenForm() {
+    const newRamenForm = document.querySelector("#new-ramen")
+    newRamenForm.addEventListener("submit", (event) => {
         event.preventDefault()
 
-       let newRamen = {
-            "name": newRamenName.value,
-            "restaurant": newRamenRestaurant.value, 
-            "image": newRamenImage.value,
-            "rating": newRamenRating.value,
-            "comment": newRamenComment.value  
+        const newRamenName = document.querySelector("#new-name")
+        const newRamenRestaurant = document.querySelector("#new-restaurant")
+        const newRamenImage = document.querySelector("#new-image")
+        const newRamenRating = document.querySelector("#new-rating")
+        const newRamenComment = document.querySelector("#new-comment")
+
+        let newRamen = {
+            "name" : newRamenName.value,
+            "restaurant" : newRamenRestaurant.value,
+            "image" : newRamenImage.value,
+            "rating" : newRamenRating.value,
+            "comment" : newRamenComment.value
         }
         addRamenToPage(newRamen)
 
